@@ -1,6 +1,8 @@
-# tracking-vue
+# Tracking Vue
 
-> A Vue.js project
+## Tracking Codes
+- abc123
+- def456
 
 ## Build Setup
 
