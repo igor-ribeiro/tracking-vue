@@ -1,11 +1,11 @@
 <template>
-    <div v-show="trackingError" class="tracking-error">{{ trackingError }}</div>
+    <div v-show="error" class="tracking-error">{{ error}}</div>
 </template>
 
 <script>
 export default {
     props: [
-        'trackingError',
+        'error',
     ],
 };
 </script>

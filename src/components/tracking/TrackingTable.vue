@@ -1,5 +1,5 @@
 <template>
-    <table v-show="trackingInfo.length" class="tracking-table">
+    <table v-show="information.length" class="tracking-table">
         <thead class="tracking-table-header">
             <tr>
                 <th colspan="2">Tracking Code: {{ $route.params.trackingCode }}</th>
@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody class="tracking-table-body">
-            <tr v-for="info in trackingInfo">
+            <tr v-for="info in information">
                 <td>{{ info.dateTime }}</td>
                 <td>{{ info.description }}</td>
             </tr>
@@ -21,7 +21,7 @@
 <script>
 export default {
     props: [
-        'trackingInfo',
+        'information',
     ],
 };
 </script>

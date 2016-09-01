@@ -1,23 +1,35 @@
 <template>
     <div class="tracking-search">
-        <input @keyup.enter="track" v-model="trackingCode" class="tracking-search-field" type="text">
+        <input @keyup.enter="track" @input="updateTrackingCode" class="tracking-search-field" type="text">
         <input @click="track" class="tracking-search-button" value="Track" type="submit">
     </div>
 </template>
 
 <script>
+import { updateTrackingCode } from '../../actions/tracking-actions';
+
 export default {
     props: [
-        'trackingCode',
+        'code',
     ],
 
+    vuex: {
+        getters: {
+            code: state => state.code,
+        },
+
+        actions: {
+            updateTrackingCode,
+        },
+    },
+
     methods: {
-        track: function () {
-            if (! this.trackingCode.trim()) {
+        track () {
+            if (! this.code.trim()) {
                 return;
             }
 
-            this.$router.go({ path: `/${this.trackingCode}` });
+            this.$router.go({ path: `/${this.code}` });
         }
     },
 };

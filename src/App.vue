@@ -3,7 +3,7 @@
         <app-title>Tracking - VueJs</app-title>
         <app-separator></app-separator>
 
-        <tracking-search :tracking-code.sync="trackingCode"></tracking-search>
+        <tracking-search :code="code"></tracking-search>
         <app-separator></app-separator>
 
         <router-view keep-alive></router-view>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import trackingApi from '../mocks/tracking-api.js';
+import trackingStore from './stores/tracking-store';
 
 import AppLoader from './components/app/AppLoader';
 import AppTitle from './components/app/AppTitle';
@@ -20,6 +20,14 @@ import AppSeparator from './components/app/AppSeparator';
 import TrackingSearch from './components/tracking/TrackingSearch';
 
 export default {
+    store: trackingStore,
+
+    vuex: {
+        getters: {
+            code: state => state.code,
+        },
+    },
+
     components: {
         AppTitle,
         AppLoader,

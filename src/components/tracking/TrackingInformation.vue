@@ -1,14 +1,15 @@
 <template>
     <div class="tracking-information">
-        <app-loader :is-loading="$loadingRouteData"></app-loader>
+        <app-loader :is-loading="isLoading"></app-loader>
 
-        <tracking-table :tracking-info="trackingInfo"></tracking-table>
-        <tracking-error :tracking-error="trackingError"></tracking-error>
+        <tracking-table :information="information"></tracking-table>
+        <tracking-error :error="error"></tracking-error>
     </div>
 </template>
 
 <script>
-import trackingApi from '../../../mocks/tracking-api.js';
+import trackingStore from '../../stores/tracking-store';
+import { requestTrackingInformation } from '../../actions/tracking-actions';
 
 import AppLoader from '../app/AppLoader';
 
@@ -16,6 +17,8 @@ import TrackingTable from './TrackingTable';
 import TrackingError from './TrackingError';
 
 export default {
+    store: trackingStore,
+
     components: {
         AppLoader,
 
@@ -23,32 +26,23 @@ export default {
         TrackingError,
     },
 
-    data() {
-        return {
-            trackingInfo  : [],
-            trackingError : '',
-        };
+    vuex: {
+        getters: {
+            information: state => state.information,
+            error: state => state.error,
+            isLoading: state => state.isLoading,
+        },
+
+        actions: {
+            requestTrackingInformation,
+        },
     },
 
     route: {
         data: function () {
             const trackingCode = this.$route.params.trackingCode;
-            const trackingInfo = trackingApi[trackingCode];
 
-            this.trackingInfo = [];
-            this.trackingError = '';
-
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    if (! trackingInfo) {
-                        reject(`No tracking information found for "${trackingCode}" code.`);
-                    }
-
-                    resolve(trackingInfo);
-                }, 2000);
-            })
-            .then((info) => this.trackingInfo = info)
-            .catch((error) => this.trackingError = error);
+            this.requestTrackingInformation(trackingCode);
         },
     },
 };
